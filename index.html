@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nandhagopal K - Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --accent: #00d4ff;
+            --accent-glow: rgba(0, 212, 255, 0.4);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] {
+            --bg-dark: #f5f5f5;
+            --bg-card: rgba(0, 0, 0, 0.05);
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --accent: #0066cc;
+            --accent-glow: rgba(0, 102, 204, 0.3);
+            --border: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Background Image (Desktop / Android) */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: brightness(0.35);
+        }
+
+        body.desktop .animated-bg {
+            background-image: url('assets/desktop-bg.jpg');
+        }
+
+        body.android .animated-bg {
+            background-image: url('assets/android-bg.jpg');
+        }
+
+        /* Subtle animated overlay */
+        .animated-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(circle, var(--accent-glow) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.4;
+            animation: moveGrid 20s linear infinite;
+        }
+
+        @keyframes moveGrid {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Fixed Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(20px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="light"] .navbar {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--accent), #00aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 5px 15px var(--accent-glow);
+            transform: translateY(-2px);
+        }
+
+        .theme-toggle {
+            background: var(--bg-card);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(180deg) scale(1.1);
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        /* Sections */
+        section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 2rem 2rem;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Home Section */
+        .home-content {
+            text-align: center;
+        }
+
+        .profile-image-wrapper {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            margin: 0 auto 2rem;
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent), #764ba2);
+            padding: 5px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            animation: pulse 3s infinite;
+        }
+
+        .profile-image-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: url('assets/profile.jpg') center/cover no-repeat;
+            background-color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            overflow: hidden;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05) rotate(5deg);
+            box-shadow: 0 20px 60px var(--accent-glow);
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px var(--accent-glow); }
+            50% { box-shadow: 0 0 40px var(--accent-glow); }
+        }
+
+        .home-content h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--accent), #00aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin: 2rem 0;
+            line-height: 1.6;
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.2);
+            transform: scale(0);
+            transition: transform 0.3s ease;
+            border-radius: 50%;
+        }
+
+        .social-link:hover::before {
+            transform: scale(1);
+        }
+
+        .social-link:hover {
+            transform: translateY(-10px) rotate(360deg);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .telegram { background: linear-gradient(135deg, #0088cc, #00aaff); }
+        .instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366); }
+        .twitter { background: linear-gradient(135deg, #1da1f2, #0d8bd9); }
+        .github { background: linear-gradient(135deg, #333, #666); }
+
+        /* Content Sections */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--accent), #00aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px var(--accent-glow);
+            background: linear-gradient(135deg, var(--accent), #764ba2);
+            color: #fff;
+        }
+
+        .card i {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            transition: all 0.4s ease;
+        }
+
+        .card:hover i {
+            transform: scale(1.2) rotateY(360deg);
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: rgba(10, 10, 10, 0.98);
+                flex-direction: column;
+                padding: 2rem;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            [data-theme="light"] .nav-links {
+                background: rgba(255, 255, 255, 0.98);
+            }
+
+            .nav-links.active {
+                transform: translateX(0);
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            section {
+                padding: 80px 1.5rem 2rem;
+            }
+        }
+
+        /* Floating Particles */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            font-size: 1.5rem;
+            animation: float 4s ease-in-out forwards;
+            z-index: 999;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) scale(0.6) rotate(0deg); opacity: 0; }
+            20% { opacity: 1; }
+            50% { transform: translateY(-80px) scale(1) rotate(180deg); opacity: 1; }
+            100% { transform: translateY(-150px) scale(0.4) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <div class="animated-bg"></div>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">🌀 Nandhagopal</div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#maths" class="nav-link">Maths</a></li>
+                <li><a href="#programming" class="nav-link">Programming</a></li>
+                <li><a href="#anime" class="nav-link">Anime</a></li>
+                <li><a href="#dev" class="nav-link">Dev</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="visible">
+        <div class="container">
+            <div class="home-content">
+                <div class="profile-image-wrapper">
+                    <div class="profile-image">
+                        <div class="profile-image-inner"></div>
+                    </div>
+                </div>
+                <h1>Nandhagopal K</h1>
+                <p class="subtitle">🎂 Born: April 16, 2006 | 📍 Cuddalore, Tamil Nadu, India</p>
+                <p class="tagline">Mathematics Enthusiast | Programmer | Anime Lover<br>Always Learning & Building 🚀</p>
+                
+                <div class="social-links">
+                    <a href="https://t.me/nandha" class="social-link telegram" target="_blank">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="https://instagram.com/darlingonelife" class="social-link instagram" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://x.com/nandhasigma" class="social-link twitter" target="_blank">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://github.com/nandhaxd" class="social-link github" target="_blank">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Maths Section -->
+    <section id="maths">
+        <div class="container">
+            <div class="section-header">
+                <h2>📐 Mathematics</h2>
+                <p>Passionate about exploring the beauty of mathematics through calculus, vectors, and probability theory</p>
+            </div>
+            <div class="cards-grid">
+                <div class="card">
+                    <i class="fas fa-calculator"></i>
+                    <h3>Calculus</h3>
+                    <p>Advanced differentiation & integration</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-vector-square"></i>
+                    <h3>Vector Analysis</h3>
+                    <p>Multi-dimensional mathematics</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Statistics</h3>
+                    <p>Data analysis & interpretation</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-dice"></i>
+                    <h3>Probability</h3>
+                    <p>Random events & distributions</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programming Section -->
+    <section id="programming">
+        <div class="container">
+            <div class="section-header">
+                <h2>💻 Programming</h2>
+                <p>Building automation bots, APIs, and web applications with modern technologies</p>
+            </div>
+            <div class="cards-grid">
+                <div class="card">
+                    <i class="fab fa-python"></i>
+                    <h3>Python</h3>
+                    <p>Backend development & scripting</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-database"></i>
+                    <h3>SQL</h3>
+                    <p>Database management & queries</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-robot"></i>
+                    <h3>Bots</h3>
+                    <p>Telegram & Discord automation</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-code"></i>
+                    <h3>APIs</h3>
+                    <p>RESTful API development</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Anime Section -->
+    <section id="anime">
+        <div class="container">
+            <div class="section-header">
+                <h2>🎌 Anime</h2>
+                <p>Exploring the fascinating world of Japanese animation and culture</p>
+            </div>
+            <div class="cards-grid">
+                <div class="card">
+                    <i class="fas fa-play-circle"></i>
+                    <h3>Anime Series</h3>
+                    <p>Watching & analyzing anime</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-heart"></i>
+                    <h3>Weeb Culture</h3>
+                    <p>Deep dive into Japanese culture</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-users"></i>
+                    <h3>Community</h3>
+                    <p>Connecting with fellow fans</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Development Section -->
+    <section id="dev">
+        <div class="container">
+            <div class="section-header">
+                <h2>⚡ Development</h2>
+                <p>Full-stack development, automation, and exploring cutting-edge technologies</p>
+            </div>
+            <div class="cards-grid">
+                <div class="card">
+                    <i class="fas fa-laptop-code"></i>
+                    <h3>Full-Stack</h3>
+                    <p>Complete web applications</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-spider"></i>
+                    <h3>Web Scraping</h3>
+                    <p>Data extraction & automation</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-brain"></i>
+                    <h3>AI/ML</h3>
+                    <p>Machine learning exploration</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-rocket"></i>
+                    <h3>Automation</h3>
+                    <p>Workflow optimization</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Detect Android vs Desktop for background
+        const body = document.body;
+        (function detectDevice() {
+            const ua = navigator.userAgent || navigator.vendor || window.opera;
+            if (/android/i.test(ua)) {
+                body.classList.add('android');
+            } else {
+                body.classList.add('desktop');
+            }
+        })();
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            themeToggle.querySelector('i').className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+            createParticle('✨');
+        });
+
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = menuToggle.querySelector('i');
+            icon.className = navLinks.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
+        });
+
+        // Smooth Scroll Navigation
+        const navLinksItems = document.querySelectorAll('.nav-link');
+        
+        navLinksItems.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                // Update active state
+                navLinksItems.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                // Close mobile menu
+                navLinks.classList.remove('active');
+                menuToggle.querySelector('i').className = 'fas fa-bars';
+                
+                // Smooth scroll
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Intersection Observer for scroll animations
+        const sections = document.querySelectorAll('section');
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Update active nav link
+                    const sectionId = entry.target.getAttribute('id');
+                    navLinksItems.forEach(link => {
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            navLinksItems.forEach(l => l.classList.remove('active'));
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => observer.observe(section));
+
+        // Floating Particles
+        const emojis = ['✨', '⭐', '🚀', '💫', '🌟', '⚡', '🔥', '🌀', '😎', '💻', '📐', '🎌'];
+        const touchEmojis = ['✨', '🔥', '💫', '😈', '😎', '🚀'];
+
+        function createParticle(emoji, x = null, y = null) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.textContent = emoji;
+
+            if (x !== null && y !== null) {
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+            } else {
+                particle.style.left = Math.random() * window.innerWidth + 'px';
+                particle.style.top = Math.random() * window.innerHeight + 'px';
+            }
+
+            document.body.appendChild(particle);
+            setTimeout(() => particle.remove(), 4000);
+        }
+
+        // Random particle generation
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+                createParticle(emoji);
+            }
+        }, 1800);
+
+        // Profile image interaction (burst)
+        document.querySelector('.profile-image').addEventListener('click', (e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 7; i++) {
+                setTimeout(() => {
+                    createParticle('💥', centerX + (Math.random() * 40 - 20), centerY + (Math.random() * 40 - 20));
+                }, i * 80);
+            }
+        });
+
+        // Card hover particles
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', () => createParticle('💖'));
+        });
+
+        // Social link particles
+        document.querySelectorAll('.social-link').forEach(link => {
+            link.addEventListener('mouseenter', () => createParticle('🌈'));
+        });
+
+        // Global click / touch -> emoji at touch point
+        document.addEventListener('click', (e) => {
+            const emoji = touchEmojis[Math.floor(Math.random() * touchEmojis.length)];
+            createParticle(emoji, e.clientX, e.clientY);
+        });
+
+        document.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            if (!touch) return;
+            const emoji = touchEmojis[Math.floor(Math.random() * touchEmojis.length)];
+            createParticle(emoji, touch.clientX, touch.clientY);
+        }, { passive: true });
+    </script>
+</body>
+</html>
